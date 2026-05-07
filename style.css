@@ -1,4 +1,4 @@
-/* ---------- Tokens (Perplexity-ish dark palette) ---------- */
+/* ---------- Tokens (shared dark palette) ---------- */
 :root {
   --bg: #1a1a1a;
   --bg-elev: #242424;
@@ -10,6 +10,16 @@
   --accent: #20b8cd;
   --accent-hover: #1ca5b8;
   --danger: #ff5f56;
+}
+
+/* Per-engine accent overrides. Set on <body> via data-engine. */
+body[data-engine="perplexity"] {
+  --accent: #20b8cd;       /* Perplexity cyan */
+  --accent-hover: #1ca5b8;
+}
+body[data-engine="chatgpt"] {
+  --accent: #10a37f;       /* OpenAI legacy green */
+  --accent-hover: #0d8c6c;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -106,6 +116,40 @@ body {
 }
 .send-btn:hover { background: var(--accent-hover); }
 .send-btn:active { transform: scale(0.95); }
+
+/* Engine selector pills (builder mode). */
+.engine-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+.engine-pill { cursor: pointer; }
+.engine-pill input { position: absolute; opacity: 0; pointer-events: none; }
+.engine-pill > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  user-select: none;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.engine-pill:hover > span { color: var(--text); }
+.engine-pill input:checked + span {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--bg-elev-2);
+}
+.engine-pill input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 .output {
   margin-top: 2rem;
